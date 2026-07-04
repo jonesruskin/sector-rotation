@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROTATION — NSE Sector Rotation Tracker</title>
+<style>
+  :root{
+    --bg:#eef0f3; --panel:#ffffff; --border:#dfe2e8; --ink:#14161a; --muted:#8a8f98;
+    --green:#1f7a4d; --green-bg:#e4f3ea; --green-bd:#bfe2cd;
+    --amber:#9a7412; --amber-bg:#fbf1d8; --amber-bd:#eddca3;
+    --blue:#2452c8; --blue-bg:#e7edfc; --blue-bd:#c3d3f6;
+    --red:#b3402f; --red-bg:#fbeae7; --red-bd:#f0c9c1;
+    --mono: "JetBrains Mono","SF Mono",Consolas,"Courier New",monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--mono); -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+  header{display:flex;justify-content:space-between;align-items:flex-end;
+    border-bottom:2px solid var(--ink); padding-bottom:16px; margin-bottom:20px; gap:16px; flex-wrap:wrap;}
+  h1{font-size:34px; letter-spacing:1px; margin:0; font-weight:800;}
+  .sub{color:var(--muted); font-size:12.5px; margin-top:6px;}
+  .sub b{color:var(--ink); font-weight:700;}
+  .toggle{display:flex; border:1px solid var(--ink); border-radius:8px; overflow:hidden; height:38px;}
+  .toggle button{border:none;background:var(--panel);color:var(--ink);font-family:var(--mono);
+    font-size:13px; font-weight:700; padding:0 18px; cursor:pointer;}
+  .toggle button.active{background:var(--ink); color:#fff;}
+  .status-line{display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin:-6px 0 18px;}
+  .status-line span.live::before{content:"● "; color:var(--green);}
+  .quad-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:26px;}
+  @media (max-width:700px){ .quad-grid{grid-template-columns:1fr;} }
+  .quad{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px 18px;}
+  .quad h2{font-size:13px; margin:0 0 3px; letter-spacing:.5px; display:flex; gap:8px; align-items:baseline;}
+  .quad .desc{color:var(--muted); font-weight:400; font-size:11.5px;}
+  .quad .pills{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; min-height:32px;}
+  .pill{padding:6px 12px; border-radius:7px; font-size:12.5px; font-weight:700; border:1px solid;}
+  .q-leading h2{color:var(--green);} .pill.leading{color:var(--green); background:var(--green-bg); border-color:var(--green-bd);}
+  .q-down h2{color:var(--amber);} .pill.down{color:var(--amber); background:var(--amber-bg); border-color:var(--amber-bd);}
+  .q-up h2{color:var(--blue);} .pill.up{color:var(--blue); background:var(--blue-bg); border-color:var(--blue-bd);}
+  .q-lagging h2{color:var(--red);} .pill.lagging{color:var(--red); background:var(--red-bg); border-color:var(--red-bd);}
+  .empty-note{color:var(--muted); font-size:12px; font-style:italic;}
+
+  table{width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  thead th{text-align:right; font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.5px;
+    padding:12px 16px; border-bottom:1px solid var(--border); cursor:pointer; user-select:none;}
+  thead th:first-child, thead th:nth-child(2){text-align:left;}
+  thead th.sorted{color:var(--ink);}
+  tbody td{padding:14px 16px; text-align:right; border-bottom:1px solid var(--border); font-size:14px;}
+  tbody td:first-child, tbody td:nth-child(2){text-align:left;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#fafbfc;}
+  .rank{color:var(--muted); font-weight:700; width:34px;}
+  .sname{font-weight:700; display:flex; align-items:center; gap:8px;}
+  .tag{font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:6px; border:1px solid;}
+  .tag.leading{color:var(--green); background:var(--green-bg); border-color:var(--green-bd);}
+  .tag.down{color:var(--amber); background:var(--amber-bg); border-color:var(--amber-bd);}
+  .tag.up{color:var(--blue); background:var(--blue-bg); border-color:var(--blue-bd);}
+  .tag.lagging{color:var(--red); background:var(--red-bg); border-color:var(--red-bd);}
+  .score{color:var(--green); font-weight:700;}
+  .score.neg{color:var(--red);}
+  .bar-cell{display:flex; align-items:center; gap:8px; justify-content:flex-end;}
+  .bar-track{width:70px; height:7px; background:#eceff2; border-radius:4px; overflow:hidden;}
+  .bar-fill{height:100%; border-radius:4px; background:var(--green);}
+  .bar-fill.neg{background:var(--red);}
+  .up-val{color:var(--green);} .down-val{color:var(--red);}
+  .rankchip{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 8px; border-radius:6px;}
+  .rankchip.up{color:var(--green); background:var(--green-bg);}
+  .rankchip.down{color:var(--red); background:var(--red-bg);}
+  .rankchip.flat{color:var(--muted); background:#f1f2f4;}
+
+  #mapView{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:10px;}
+  #mapView svg{width:100%; height:auto; display:block;}
+  .dot-label{font-size:9.5px; font-family:var(--mono); fill:var(--ink);}
+  .axis-label{font-size:11px; fill:var(--muted); font-weight:700;}
+
+  .loading, .err{padding:60px 20px; text-align:center; color:var(--muted); font-size:13px;}
+  .err{color:var(--red);}
+  footer{margin-top:26px; font-size:11px; color:var(--muted); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>ROTATION</h1>
+      <div class="sub" id="metaLine">loading…</div>
+    </div>
+    <div class="toggle">
+      <button id="btnMap">Map</button>
+      <button id="btnLadder" class="active">Ladder</button>
+    </div>
+  </header>
+
+  <div id="content">
+    <div class="loading">Fetching data/rotation.json…</div>
+  </div>
+
+  <footer>Data: NSE official sectoral/thematic index bhavcopy · Benchmark: NIFTY 500 · Updates automatically after market close on trading days.</footer>
+</div>
+
+<script>
+const QUAD_META = {
+  "Leading":      {box:"q-leading",  pill:"leading", tag:"leading", label:"LEADING",      desc:"strong & still rising"},
+  "Turning Down": {box:"q-down",     pill:"down",    tag:"down",    label:"TURNING DOWN",  desc:"strong but rolling over"},
+  "Turning Up":   {box:"q-up",       pill:"up",      tag:"up",      label:"TURNING UP",    desc:"weak but catching up"},
+  "Lagging":      {box:"q-lagging",  pill:"lagging", tag:"lagging", label:"LAGGING",       desc:"weak & falling"}
+};
+const QUAD_ORDER = ["Leading","Turning Down","Turning Up","Lagging"];
+
+let DATA = null;
+let sortKey = "rotation_score";
+let sortDir = -1;
+let view = "ladder";
+
+async function load() {
+  try {
+    const res = await fetch("data/rotation.json?_=" + Date.now());
+    if (!res.ok) throw new Error("no data file yet");
+    DATA = await res.json();
+    render();
+  } catch (e) {
+    document.getElementById("content").innerHTML =
+      '<div class="err">No rotation data yet.<br><br>' +
+      'This dashboard reads <code>data/rotation.json</code>, which is generated by the ' +
+      'GitHub Actions workflow (<code>.github/workflows/update-rotation.yml</code>).<br>' +
+      'Run it once from the <b>Actions</b> tab (workflow_dispatch) to populate history, ' +
+      'or wait for the next scheduled run after market close.</div>';
+    document.getElementById("metaLine").textContent = "no data yet";
+  }
+}
+
+function fmtPct(v){ if(v===null||v===undefined) return "—"; return (v>=0?"+":"") + v.toFixed(2) + "%"; }
+function fmtNum(v,d=2){ if(v===null||v===undefined) return "—"; return (v>=0?"+":"") + v.toFixed(d); }
+
+function render(){
+  document.getElementById("metaLine").innerHTML =
+    `updated <b>${DATA.updated}</b> · vs <b>${DATA.benchmark}</b> · ` +
+    `<b>${DATA.sectors.length}</b> sectors · <span class="live">${DATA.trading_days_of_history} trading days of history</span>`;
+
+  if (view === "ladder") renderLadder(); else renderMap();
+}
+
+function renderLadder(){
+  const sectors = [...DATA.sectors];
+  sectors.sort((a,b)=> (a[sortKey]===null?-Infinity:a[sortKey]) < (b[sortKey]===null?-Infinity:b[sortKey]) ? 1*sortDir*-1 : -1*sortDir*-1);
+  // simpler stable sort:
+  sectors.sort((a,b)=>{
+    const av=a[sortKey], bv=b[sortKey];
+    if(av===null) return 1; if(bv===null) return -1;
+    return sortDir*(bv-av);
+  });
+
+  const maxAbsScore = Math.max(...DATA.sectors.map(s=>Math.abs(s.rotation_score)), 0.01);
+
+  let quadHtml = '<div class="quad-grid">';
+  for(const q of QUAD_ORDER){
+    const meta = QUAD_META[q];
+    const items = DATA.sectors.filter(s=>s.quadrant===q).sort((a,b)=>b.rotation_score-a.rotation_score);
+    quadHtml += `<div class="quad ${meta.box}">
+      <h2>${meta.label} <span class="desc">${meta.desc}</span></h2>
+      <div class="pills">${ items.length ? items.map(s=>`<span class="pill ${meta.pill}">${s.name}</span>`).join("") : '<span class="empty-note">none right now</span>' }</div>
+    </div>`;
+  }
+  quadHtml += '</div>';
+
+  const cols = [
+    ["#","rank",false], ["SECTOR","name",false],
+    ["ROTATION SCORE","rotation_score",true], ["STRENGTH %","strength_pct",true],
+    ["MOMENTUM","momentum",true], ["4-WK RANK","rank_4wk_change",true]
+  ];
+  let head = "<tr>" + cols.map(([label,key])=>
+    `<th data-key="${key}" class="${sortKey===key?'sorted':''}">${label}${sortKey===key?(sortDir===1?' ▲':' ▼'):''}</th>`
+  ).join("") + "</tr>";
+
+  let rows = sectors.map(s=>{
+    const meta = QUAD_META[s.quadrant];
+    const barPct = Math.min(100, Math.abs(s.rotation_score)/maxAbsScore*100);
+    const negScore = s.rotation_score < 0;
+    const momArrow = s.momentum>=0 ? '▲' : '▼';
+    const momClass = s.momentum>=0 ? 'up-val' : 'down-val';
+    let rankChip = '<span class="rankchip flat">—</span>';
+    if(s.rank_4wk_change !== null && s.rank_4wk_change !== undefined){
+      if(s.rank_4wk_change > 0) rankChip = `<span class="rankchip up">▲ ${s.rank_4wk_change}</span>`;
+      else if(s.rank_4wk_change < 0) rankChip = `<span class="rankchip down">▼ ${Math.abs(s.rank_4wk_change)}</span>`;
+      else rankChip = `<span class="rankchip flat">–</span>`;
+    }
+    return `<tr>
+      <td class="rank">${s.rank}</td>
+      <td><span class="sname">${s.name} <span class="tag ${meta.tag}">${meta.label}</span></span></td>
+      <td><div class="bar-cell"><span class="score ${negScore?'neg':''}">${fmtNum(s.rotation_score,3)}</span>
+          <div class="bar-track"><div class="bar-fill ${negScore?'neg':''}" style="width:${barPct}%"></div></div></div></td>
+      <td>${fmtPct(s.strength_pct)}</td>
+      <td class="${momClass}">${momArrow} ${fmtNum(Math.abs(s.momentum)).replace('+','')}</td>
+      <td>${rankChip}</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("content").innerHTML = quadHtml + `<table><thead>${head}</thead><tbody>${rows}</tbody></table>`;
+
+  document.querySelectorAll("thead th[data-key]").forEach(th=>{
+    th.addEventListener("click", ()=>{
+      const key = th.dataset.key;
+      if(sortKey===key) sortDir *= -1; else { sortKey = key; sortDir = -1; }
+      renderLadder();
+    });
+  });
+}
+
+function renderMap(){
+  const W=1080,H=620,pad=60;
+  const xs = DATA.sectors.map(s=>s.rs_ratio);
+  const ys = DATA.sectors.map(s=>s.rs_momentum);
+  const xMin = Math.min(96, ...xs), xMax = Math.max(104, ...xs);
+  const yMin = Math.min(96, ...ys), yMax = Math.max(104, ...ys);
+  const sx = v => pad + (v-xMin)/(xMax-xMin) * (W-2*pad);
+  const sy = v => H-pad - (v-yMin)/(yMax-yMin) * (H-2*pad);
+  const cx100 = sx(100), cy100 = sy(100);
+
+  let dots = DATA.sectors.map(s=>{
+    const meta = QUAD_META[s.quadrant];
+    const color = {leading:"#1f7a4d",down:"#9a7412",up:"#2452c8",lagging:"#b3402f"}[meta.pill];
+    const x = sx(s.rs_ratio), y = sy(s.rs_momentum);
+    return `<circle cx="${x}" cy="${y}" r="6" fill="${color}" fill-opacity="0.85" stroke="#fff" stroke-width="1.5"/>
+            <text class="dot-label" x="${x+9}" y="${y+3}">${s.name}</text>`;
+  }).join("");
+
+  const svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="${pad}" y="${pad}" width="${cx100-pad}" height="${cy100-pad}" fill="#e7edfc" opacity="0.5"/>
+    <rect x="${cx100}" y="${pad}" width="${W-pad-cx100}" height="${cy100-pad}" fill="#e4f3ea" opacity="0.5"/>
+    <rect x="${pad}" y="${cy100}" width="${cx100-pad}" height="${H-pad-cy100}" fill="#fbeae7" opacity="0.5"/>
+    <rect x="${cx100}" y="${cy100}" width="${W-pad-cx100}" height="${H-pad-cy100}" fill="#fbf1d8" opacity="0.5"/>
+    <line x1="${pad}" y1="${cy100}" x2="${W-pad}" y2="${cy100}" stroke="#c7ccd4" stroke-dasharray="4 4"/>
+    <line x1="${cx100}" y1="${pad}" x2="${cx100}" y2="${H-pad}" stroke="#c7ccd4" stroke-dasharray="4 4"/>
+    <text class="axis-label" x="${pad}" y="${pad-14}">TURNING UP</text>
+    <text class="axis-label" x="${W-pad-70}" y="${pad-14}">LEADING</text>
+    <text class="axis-label" x="${pad}" y="${H-pad+28}">LAGGING</text>
+    <text class="axis-label" x="${W-pad-90}" y="${H-pad+28}">TURNING DOWN</text>
+    <text class="axis-label" x="${W/2-40}" y="${H-16}">RS-RATIO →</text>
+    <text class="axis-label" x="16" y="${H/2}" transform="rotate(-90 16 ${H/2})">RS-MOMENTUM →</text>
+    ${dots}
+  </svg>`;
+  document.getElementById("content").innerHTML = `<div id="mapView">${svg}</div>`;
+}
+
+document.getElementById("btnLadder").addEventListener("click", ()=>{
+  view="ladder"; document.getElementById("btnLadder").classList.add("active");
+  document.getElementById("btnMap").classList.remove("active"); render();
+});
+document.getElementById("btnMap").addEventListener("click", ()=>{
+  view="map"; document.getElementById("btnMap").classList.add("active");
+  document.getElementById("btnLadder").classList.remove("active"); render();
+});
+
+load();
+</script>
+</body>
+</html>
