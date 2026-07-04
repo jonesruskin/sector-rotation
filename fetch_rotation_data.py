@@ -37,32 +37,62 @@ BENCHMARK = "NIFTY 500"
 # Official NSE sectoral / thematic indices we track (must match the "Index
 # Name" text exactly as NSE publishes it in the bhavcopy, upper-cased below).
 # Feel free to trim/extend this list.
+# Each entry can be a single name or a tuple of acceptable spelling variants
+# (NSE's bhavcopy wording doesn't always exactly match its website's display
+# name, e.g. "OIL & GAS" vs "OIL AND GAS") — the fetcher normalizes and
+# matches against any variant given.
 SECTORS = [
+    # --- Official Sectoral Indices ---
     "NIFTY AUTO",
     "NIFTY BANK",
-    "NIFTY FIN SERVICE",
+    "NIFTY CAPITAL GOODS",
+    "NIFTY CEMENT",
+    "NIFTY CHEMICALS",
+    ("NIFTY COMMERCIAL & TRANSPORT SERVICES", "NIFTY COMMERCIAL AND TRANSPORT SERVICES"),
+    "NIFTY CONSTRUCTION",
+    "NIFTY CONSUMER DURABLES",
+    "NIFTY CONSUMER SERVICES",
+    ("NIFTY FINANCIAL SERVICES", "NIFTY FIN SERVICE"),
     "NIFTY FMCG",
+    ("NIFTY HEALTHCARE INDEX", "NIFTY HEALTHCARE"),
+    "NIFTY HOSPITALS",
+    "NIFTY HOUSING FINANCE",
+    "NIFTY INSURANCE",
     "NIFTY IT",
     "NIFTY MEDIA",
     "NIFTY METAL",
+    "NIFTY NBFC",
+    ("NIFTY OIL & GAS", "NIFTY OIL AND GAS", "NIFTY OIL AND GAS INDEX"),
     "NIFTY PHARMA",
-    "NIFTY PSU BANK",
+    "NIFTY POWER",
     "NIFTY PRIVATE BANK",
+    "NIFTY PSU BANK",
     "NIFTY REALTY",
-    "NIFTY HEALTHCARE INDEX",
-    "NIFTY CONSUMER DURABLES",
-    "NIFTY OIL & GAS",
-    "NIFTY CHEMICALS",
+    ("NIFTY REITS & REALTY", "NIFTY REITS AND REALTY"),
+    "NIFTY RETAIL",
+    "NIFTY TELECOMMUNICATIONS",
     "NIFTY MIDSMALL HEALTHCARE",
-    "NIFTY MIDSMALL FINANCIAL SERVICES",
-    "NIFTY MIDSMALL IT & TELECOM",
+    ("NIFTY MIDSMALL FINANCIAL SERVICES", "NIFTY MIDSMALL FINANCIAL SERVICE"),
+    ("NIFTY MIDSMALL IT & TELECOM", "NIFTY MIDSMALL IT AND TELECOM"),
+
+    # --- Thematic indices with real sector-rotation value ---
     "NIFTY CAPITAL MARKETS",
-    "NIFTY INDIA DEFENCE",
-    "NIFTY SERVICES SECTOR",
     "NIFTY COMMODITIES",
+    "NIFTY CPSE",
+    ("NIFTY EV & NEW AGE AUTOMOTIVE", "NIFTY EV AND NEW AGE AUTOMOTIVE"),
     "NIFTY ENERGY",
+    "NIFTY INDIA DEFENCE",
+    "NIFTY INDIA DIGITAL",
+    "NIFTY INDIA INTERNET",
+    "NIFTY INDIA MANUFACTURING",
+    "NIFTY INDIA RAILWAYS PSU",
+    "NIFTY INDIA TOURISM",
     "NIFTY INFRASTRUCTURE",
     "NIFTY MNC",
+    "NIFTY PSE",
+    "NIFTY SERVICES SECTOR",
+    ("NIFTY SMALL FINANCE BANKS & MICROFINANCE INSTITUTIONS", "NIFTY SMALL FINANCE BANKS AND MICROFINANCE INSTITUTIONS"),
+    ("NIFTY TRANSPORTATION & LOGISTICS", "NIFTY TRANSPORTATION AND LOGISTICS"),
 ]
 
 RS_RATIO_WINDOW = 14      # trading days for the RS-Ratio smoothing
@@ -71,6 +101,35 @@ STRENGTH_LOOKBACK = 20    # ~1 month, for the "Strength %" column
 RANK_LOOKBACK = 20        # ~4 weeks, for the "4-Wk Rank" delta
 BACKFILL_CALENDAR_DAYS = 100   # how far back to reach on a cold start
 MAX_HISTORY_DAYS_KEPT = 200    # trim history file so it doesn't grow forever
+
+def _canonical_label(entry) -> str:
+    """The name we display/store for a SECTORS entry (first variant if a tuple)."""
+    return entry[0] if isinstance(entry, tuple) else entry
+
+
+def _variants(entry) -> list:
+    return list(entry) if isinstance(entry, tuple) else [entry]
+
+
+def normalize_name(name: str) -> str:
+    """Strip punctuation/whitespace differences so 'NIFTY OIL & GAS' and
+    'Nifty Oil and Gas Index' compare equal."""
+    n = name.upper()
+    n = n.replace("&", " AND ")
+    n = "".join(ch if ch.isalnum() else " " for ch in n)
+    n = " ".join(n.split())
+    n = n.replace(" INDEX", "")  # trailing "INDEX" suffix is inconsistent across NSE sources
+    return n.strip()
+
+
+# Build a lookup: normalized-variant -> canonical display name, for every
+# sector we track (plus the benchmark).
+_SECTOR_LOOKUP = {}
+for _entry in SECTORS:
+    _label = _canonical_label(_entry)
+    for _v in _variants(_entry):
+        _SECTOR_LOOKUP[normalize_name(_v)] = _label
+_BENCHMARK_NORM = normalize_name(BENCHMARK)
 
 HEADERS = {
     "User-Agent": (
@@ -106,12 +165,19 @@ def fetch_index_closes_for_date(date: dt.date) -> dict | None:
     close_col = next((c for c in df.columns if "Closing Index Value" in c), None)
     if not name_col or not close_col:
         return None
-    df[name_col] = df[name_col].astype(str).str.strip().str.upper()
-    wanted = set([BENCHMARK.upper()] + [s.upper() for s in SECTORS])
+
     day = {}
-    for _, row in df[df[name_col].isin(wanted)].iterrows():
+    for _, row in df.iterrows():
+        raw_name = str(row[name_col]).strip()
+        norm = normalize_name(raw_name)
+        if norm == _BENCHMARK_NORM:
+            canonical = BENCHMARK
+        elif norm in _SECTOR_LOOKUP:
+            canonical = _SECTOR_LOOKUP[norm]
+        else:
+            continue
         try:
-            day[row[name_col]] = float(row[close_col])
+            day[canonical] = float(row[close_col])
         except (ValueError, TypeError):
             continue
     return day or None
@@ -182,12 +248,28 @@ def build_frame(history: dict) -> pd.DataFrame:
     return df
 
 
+ACRONYMS = {"NIFTY", "IT", "FMCG", "PSU", "NBFC", "MNC", "CPSE", "PSE", "EV", "REITS"}
+
+
+def display_name(canonical: str) -> str:
+    words = canonical.split(" ")
+    out = []
+    for w in words:
+        core = w.strip("&")
+        if core in ACRONYMS:
+            out.append(w)  # keep as-is (already uppercase)
+        else:
+            out.append(w.capitalize())
+    return " ".join(out)
+
+
 def compute_rotation(df: pd.DataFrame) -> dict:
     bench_col = BENCHMARK.upper()
     if bench_col not in df.columns:
         raise RuntimeError("Benchmark data missing from history — cannot compute rotation.")
 
-    available_sectors = [s.upper() for s in SECTORS if s.upper() in df.columns]
+    canonical_names = [_canonical_label(s) for s in SECTORS]
+    available_sectors = [s for s in canonical_names if s in df.columns]
     results = []
     rank_history = {}  # sector -> list of (date, rotation_score) for rank-change lookback
 
@@ -234,8 +316,7 @@ def compute_rotation(df: pd.DataFrame) -> dict:
             quadrant = "Turning Up"
 
         results.append({
-            "name": sector.title().replace("Nifty", "NIFTY").replace("Fmcg", "FMCG")
-                     .replace("It ", "IT ").replace("Psu", "PSU").replace("Mnc", "MNC"),
+            "name": display_name(sector),
             "raw_name": sector,
             "quadrant": quadrant,
             "rs_ratio": round(float(latest_ratio), 2),
