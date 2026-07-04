@@ -198,35 +198,63 @@ def save_history(history: dict) -> None:
     HISTORY_FILE.write_text(json.dumps(history, indent=2, sort_keys=True))
 
 
+def _required_keys() -> set:
+    return {BENCHMARK} | {_canonical_label(s) for s in SECTORS}
+
+
+def _day_needs_fetch(day_data: dict | None, required: set) -> bool:
+    """True if this date is missing entirely, or is missing data for any
+    sector we currently track (e.g. one that was just added to SECTORS)."""
+    if day_data is None:
+        return True
+    return not required.issubset(day_data.keys())
+
+
 def update_history() -> dict:
-    """Fetch any missing trading days (backfilling on a cold start, or just
-    today's close on a normal daily run) and merge them into history.json."""
+    """Fetch any missing trading days AND backfill any currently-tracked
+    sector that's missing from earlier dates already in history (this
+    happens whenever SECTORS is expanded after the fact)."""
     history = load_history()
     today = dt.date.today()
+    required = _required_keys()
+    oldest_needed = today - dt.timedelta(days=BACKFILL_CALENDAR_DAYS)
 
     if not history:
-        start = today - dt.timedelta(days=BACKFILL_CALENDAR_DAYS)
+        start = oldest_needed
         print(f"No existing history — backfilling from {start} to {today}...")
     else:
         last_known = max(dt.date.fromisoformat(d) for d in history.keys())
-        start = last_known + dt.timedelta(days=1)
-        print(f"Existing history found up to {last_known}. Fetching {start}..{today}.")
+        # Does any date within our backfill window have a gap (missing a
+        # sector we now track, e.g. one just added)? If so, walk back to the
+        # start of the window so those columns get filled in too.
+        has_gap = any(
+            _day_needs_fetch(history.get(d), required)
+            for d in history
+            if dt.date.fromisoformat(d) >= oldest_needed
+        )
+        start = oldest_needed if has_gap else last_known + dt.timedelta(days=1)
+        if has_gap:
+            print(f"Detected sector(s) missing from existing history — "
+                  f"re-backfilling from {start} to {today}...")
+        else:
+            print(f"History up to date through {last_known}. Checking {start}..{today}.")
 
     d = start
     fetched = 0
     while d <= today:
-        # Skip weekends outright to save requests.
-        if d.weekday() < 5:
+        if d.weekday() < 5:  # skip weekends outright to save requests
             iso = d.isoformat()
-            if iso not in history:
+            if _day_needs_fetch(history.get(iso), required):
                 day_data = fetch_index_closes_for_date(d)
-                if day_data and BENCHMARK.upper() in day_data:
-                    history[iso] = day_data
+                if day_data and BENCHMARK in day_data:
+                    merged = history.get(iso, {})
+                    merged.update(day_data)
+                    history[iso] = merged
                     fetched += 1
                 time.sleep(0.3)  # be polite to NSE's archive server
         d += dt.timedelta(days=1)
 
-    print(f"Fetched {fetched} new trading day(s). Total days in history: {len(history)}.")
+    print(f"Fetched/updated {fetched} trading day(s). Total days in history: {len(history)}.")
     save_history(history)
     return history
 
