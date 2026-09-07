@@ -1,7 +1,7 @@
 {
-  "updated": "2026-09-04",
+  "updated": "2026-09-07",
   "benchmark": "NIFTY 500",
-  "trading_days_of_history": 110,
+  "trading_days_of_history": 111,
   "sectors": [
     {
       "name": "NIFTY Housing Finance",
@@ -12,7 +12,7 @@
       "strength_pct": 0.98,
       "momentum": 0.42,
       "rank": 1,
-      "rank_4wk_change": 27
+      "rank_4wk_change": 41
     },
     {
       "name": "NIFTY Telecommunications",
@@ -23,18 +23,40 @@
       "strength_pct": 4.18,
       "momentum": 1.64,
       "rank": 2,
-      "rank_4wk_change": 23
+      "rank_4wk_change": 29
     },
     {
-      "name": "NIFTY Metal",
+      "name": "NIFTY Capital Markets",
       "quadrant": "Leading",
-      "rs_ratio": 101.26,
-      "rs_momentum": 100.64,
-      "rotation_score": 1.908,
-      "strength_pct": 0.97,
-      "momentum": 1.11,
+      "rs_ratio": 101.54,
+      "rs_momentum": 101.07,
+      "rotation_score": 2.608,
+      "strength_pct": 3.06,
+      "momentum": 0.9,
       "rank": 3,
-      "rank_4wk_change": 4
+      "rank_4wk_change": 13
+    },
+    {
+      "name": "NIFTY India Defence",
+      "quadrant": "Leading",
+      "rs_ratio": 101.25,
+      "rs_momentum": 101.2,
+      "rotation_score": 2.452,
+      "strength_pct": 1.23,
+      "momentum": 0.63,
+      "rank": 4,
+      "rank_4wk_change": 7
+    },
+    {
+      "name": "NIFTY Midsmall Healthcare",
+      "quadrant": "Leading",
+      "rs_ratio": 101.37,
+      "rs_momentum": 100.48,
+      "rotation_score": 1.849,
+      "strength_pct": -0.24,
+      "momentum": 0.91,
+      "rank": 5,
+      "rank_4wk_change": 13
     },
     {
       "name": "NIFTY Power",
@@ -44,19 +66,8 @@
       "rotation_score": 1.831,
       "strength_pct": -3.89,
       "momentum": 0.16,
-      "rank": 4,
+      "rank": 6,
       "rank_4wk_change": 41
-    },
-    {
-      "name": "NIFTY Commodities",
-      "quadrant": "Leading",
-      "rs_ratio": 100.91,
-      "rs_momentum": 100.77,
-      "rotation_score": 1.68,
-      "strength_pct": -1.88,
-      "momentum": 0.26,
-      "rank": 5,
-      "rank_4wk_change": 14
     },
     {
       "name": "NIFTY Construction",
@@ -66,30 +77,8 @@
       "rotation_score": 1.527,
       "strength_pct": -1.75,
       "momentum": -0.05,
-      "rank": 6,
-      "rank_4wk_change": 14
-    },
-    {
-      "name": "NIFTY Realty",
-      "quadrant": "Leading",
-      "rs_ratio": 100.97,
-      "rs_momentum": 100.52,
-      "rotation_score": 1.495,
-      "strength_pct": 2.48,
-      "momentum": -1.07,
       "rank": 7,
-      "rank_4wk_change": 40
-    },
-    {
-      "name": "NIFTY Midsmall Financial Services",
-      "quadrant": "Leading",
-      "rs_ratio": 100.99,
-      "rs_momentum": 100.48,
-      "rotation_score": 1.465,
-      "strength_pct": 2.35,
-      "momentum": 0.23,
-      "rank": 8,
-      "rank_4wk_change": 28
+      "rank_4wk_change": 17
     },
     {
       "name": "NIFTY Insurance",
@@ -99,30 +88,30 @@
       "rotation_score": 1.448,
       "strength_pct": -0.91,
       "momentum": 1.29,
-      "rank": 9,
+      "rank": 8,
       "rank_4wk_change": 37
     },
     {
       "name": "NIFTY Private Bank",
       "quadrant": "Turning Down",
-      "rs_ratio": 101.54,
-      "rs_momentum": 99.89,
-      "rotation_score": 1.435,
-      "strength_pct": 1.58,
-      "momentum": -0.03,
-      "rank": 10,
-      "rank_4wk_change": 34
+      "rs_ratio": 101.46,
+      "rs_momentum": 99.96,
+      "rotation_score": 1.414,
+      "strength_pct": 0.77,
+      "momentum": 0.07,
+      "rank": 9,
+      "rank_4wk_change": 31
     },
     {
-      "name": "NIFTY Oil & Gas",
+      "name": "NIFTY Midsmall Financial Services",
       "quadrant": "Leading",
-      "rs_ratio": 101.04,
-      "rs_momentum": 100.35,
-      "rotation_score": 1.388,
-      "strength_pct": -1.1,
-      "momentum": -0.28,
-      "rank": 11,
-      "rank_4wk_change": 7
+      "rs_ratio": 100.89,
+      "rs_momentum": 100.46,
+      "rotation_score": 1.349,
+      "strength_pct": 0.4,
+      "momentum": -0.02,
+      "rank": 10,
+      "rank_4wk_change": 0
     },
     {
       "name": "NIFTY Commercial & Transport Services",
@@ -132,217 +121,195 @@
       "rotation_score": 1.333,
       "strength_pct": -2.27,
       "momentum": -0.19,
-      "rank": 12,
-      "rank_4wk_change": 17
-    },
-    {
-      "name": "NIFTY REITS & Realty",
-      "quadrant": "Leading",
-      "rs_ratio": 100.75,
-      "rs_momentum": 100.34,
-      "rotation_score": 1.097,
-      "strength_pct": 0.36,
-      "momentum": -0.83,
-      "rank": 13,
-      "rank_4wk_change": 24
-    },
-    {
-      "name": "NIFTY Energy",
-      "quadrant": "Leading",
-      "rs_ratio": 100.59,
-      "rs_momentum": 100.4,
-      "rotation_score": 0.998,
-      "strength_pct": -1.76,
-      "momentum": -0.47,
-      "rank": 14,
-      "rank_4wk_change": 16
-    },
-    {
-      "name": "NIFTY Midsmall IT & Telecom",
-      "quadrant": "Turning Down",
-      "rs_ratio": 101.42,
-      "rs_momentum": 99.56,
-      "rotation_score": 0.989,
-      "strength_pct": 3.58,
-      "momentum": 0.8,
-      "rank": 15,
-      "rank_4wk_change": -3
+      "rank": 11,
+      "rank_4wk_change": 25
     },
     {
       "name": "NIFTY CPSE",
       "quadrant": "Leading",
-      "rs_ratio": 100.74,
-      "rs_momentum": 100.24,
-      "rotation_score": 0.981,
-      "strength_pct": -1.0,
-      "momentum": -0.67,
-      "rank": 16,
-      "rank_4wk_change": 26
+      "rs_ratio": 101.08,
+      "rs_momentum": 100.25,
+      "rotation_score": 1.331,
+      "strength_pct": -0.86,
+      "momentum": 0.01,
+      "rank": 12,
+      "rank_4wk_change": 32
+    },
+    {
+      "name": "NIFTY Pharma",
+      "quadrant": "Leading",
+      "rs_ratio": 101.23,
+      "rs_momentum": 100.06,
+      "rotation_score": 1.283,
+      "strength_pct": 0.74,
+      "momentum": 1.25,
+      "rank": 13,
+      "rank_4wk_change": 21
+    },
+    {
+      "name": "NIFTY Energy",
+      "quadrant": "Leading",
+      "rs_ratio": 100.79,
+      "rs_momentum": 100.31,
+      "rotation_score": 1.1,
+      "strength_pct": -2.0,
+      "momentum": -0.09,
+      "rank": 14,
+      "rank_4wk_change": 21
     },
     {
       "name": "NIFTY PSE",
       "quadrant": "Leading",
-      "rs_ratio": 100.52,
-      "rs_momentum": 100.39,
-      "rotation_score": 0.917,
-      "strength_pct": -2.14,
-      "momentum": -0.25,
-      "rank": 17,
-      "rank_4wk_change": 22
-    },
-    {
-      "name": "NIFTY India Defence",
-      "quadrant": "Leading",
-      "rs_ratio": 100.29,
-      "rs_momentum": 100.57,
-      "rotation_score": 0.862,
-      "strength_pct": -0.24,
-      "momentum": 0.3,
-      "rank": 18,
-      "rank_4wk_change": -15
-    },
-    {
-      "name": "NIFTY Capital Markets",
-      "quadrant": "Leading",
-      "rs_ratio": 100.69,
-      "rs_momentum": 100.17,
-      "rotation_score": 0.859,
-      "strength_pct": 4.13,
-      "momentum": 1.21,
-      "rank": 19,
-      "rank_4wk_change": 22
-    },
-    {
-      "name": "NIFTY Financial Services",
-      "quadrant": "Leading",
-      "rs_ratio": 100.42,
+      "rs_ratio": 100.65,
       "rs_momentum": 100.3,
-      "rotation_score": 0.723,
-      "strength_pct": -1.57,
-      "momentum": 0.4,
-      "rank": 20,
-      "rank_4wk_change": 20
+      "rotation_score": 0.958,
+      "strength_pct": -1.73,
+      "momentum": -0.09,
+      "rank": 15,
+      "rank_4wk_change": 31
     },
     {
-      "name": "NIFTY Chemicals",
-      "quadrant": "Leading",
-      "rs_ratio": 100.39,
-      "rs_momentum": 100.22,
-      "rotation_score": 0.605,
-      "strength_pct": -1.58,
-      "momentum": -0.89,
-      "rank": 21,
-      "rank_4wk_change": 3
+      "name": "NIFTY Oil & Gas",
+      "quadrant": "Turning Down",
+      "rs_ratio": 100.81,
+      "rs_momentum": 99.91,
+      "rotation_score": 0.723,
+      "strength_pct": -1.35,
+      "momentum": -0.44,
+      "rank": 16,
+      "rank_4wk_change": 11
     },
     {
       "name": "NIFTY India Internet",
       "quadrant": "Turning Down",
-      "rs_ratio": 100.9,
-      "rs_momentum": 99.7,
-      "rotation_score": 0.593,
-      "strength_pct": 5.45,
+      "rs_ratio": 100.8,
+      "rs_momentum": 99.9,
+      "rotation_score": 0.694,
+      "strength_pct": 3.83,
       "momentum": 0.2,
-      "rank": 22,
-      "rank_4wk_change": -5
+      "rank": 17,
+      "rank_4wk_change": -14
     },
     {
-      "name": "NIFTY Cement",
-      "quadrant": "Turning Up",
-      "rs_ratio": 99.77,
-      "rs_momentum": 100.74,
-      "rotation_score": 0.511,
-      "strength_pct": -5.12,
-      "momentum": 0.36,
+      "name": "NIFTY Healthcare Index",
+      "quadrant": "Turning Down",
+      "rs_ratio": 100.74,
+      "rs_momentum": 99.94,
+      "rotation_score": 0.683,
+      "strength_pct": -0.78,
+      "momentum": 1.35,
+      "rank": 18,
+      "rank_4wk_change": 20
+    },
+    {
+      "name": "NIFTY Financial Services",
+      "quadrant": "Leading",
+      "rs_ratio": 100.35,
+      "rs_momentum": 100.27,
+      "rotation_score": 0.622,
+      "strength_pct": -2.3,
+      "momentum": -0.03,
+      "rank": 19,
+      "rank_4wk_change": 20
+    },
+    {
+      "name": "NIFTY Infrastructure",
+      "quadrant": "Leading",
+      "rs_ratio": 100.27,
+      "rs_momentum": 100.34,
+      "rotation_score": 0.616,
+      "strength_pct": -2.93,
+      "momentum": 0.05,
+      "rank": 20,
+      "rank_4wk_change": 3
+    },
+    {
+      "name": "NIFTY Midsmall IT & Telecom",
+      "quadrant": "Turning Down",
+      "rs_ratio": 101.07,
+      "rs_momentum": 99.52,
+      "rotation_score": 0.596,
+      "strength_pct": 2.62,
+      "momentum": -0.04,
+      "rank": 21,
+      "rank_4wk_change": -14
+    },
+    {
+      "name": "NIFTY Chemicals",
+      "quadrant": "Leading",
+      "rs_ratio": 100.43,
+      "rs_momentum": 100.02,
+      "rotation_score": 0.444,
+      "strength_pct": -2.31,
+      "momentum": -0.2,
+      "rank": 22,
+      "rank_4wk_change": -2
+    },
+    {
+      "name": "NIFTY REITS & Realty",
+      "quadrant": "Turning Down",
+      "rs_ratio": 100.47,
+      "rs_momentum": 99.96,
+      "rotation_score": 0.434,
+      "strength_pct": -0.86,
+      "momentum": -0.38,
       "rank": 23,
-      "rank_4wk_change": 10
+      "rank_4wk_change": 2
     },
     {
       "name": "NIFTY Bank",
       "quadrant": "Turning Down",
-      "rs_ratio": 100.56,
+      "rs_ratio": 100.42,
       "rs_momentum": 99.88,
-      "rotation_score": 0.445,
-      "strength_pct": -0.65,
-      "momentum": -0.2,
+      "rotation_score": 0.301,
+      "strength_pct": -1.04,
+      "momentum": 0.0,
       "rank": 24,
-      "rank_4wk_change": 3
+      "rank_4wk_change": 8
     },
     {
-      "name": "NIFTY India Railways PSU",
-      "quadrant": "Turning Up",
-      "rs_ratio": 99.56,
-      "rs_momentum": 100.76,
-      "rotation_score": 0.322,
-      "strength_pct": -4.63,
-      "momentum": 0.33,
+      "name": "NIFTY Commodities",
+      "quadrant": "Turning Down",
+      "rs_ratio": 100.27,
+      "rs_momentum": 99.88,
+      "rotation_score": 0.152,
+      "strength_pct": -3.09,
+      "momentum": -0.89,
       "rank": 25,
-      "rank_4wk_change": -3
+      "rank_4wk_change": -6
     },
     {
-      "name": "NIFTY Media",
-      "quadrant": "Turning Up",
-      "rs_ratio": 99.38,
-      "rs_momentum": 100.9,
-      "rotation_score": 0.277,
-      "strength_pct": 0.68,
-      "momentum": 0.59,
+      "name": "NIFTY Metal",
+      "quadrant": "Turning Down",
+      "rs_ratio": 100.27,
+      "rs_momentum": 99.65,
+      "rotation_score": -0.081,
+      "strength_pct": -0.56,
+      "momentum": -1.0,
       "rank": 26,
-      "rank_4wk_change": 17
-    },
-    {
-      "name": "NIFTY Infrastructure",
-      "quadrant": "Turning Up",
-      "rs_ratio": 99.9,
-      "rs_momentum": 100.29,
-      "rotation_score": 0.193,
-      "strength_pct": -3.22,
-      "momentum": -0.19,
-      "rank": 27,
-      "rank_4wk_change": -12
+      "rank_4wk_change": -21
     },
     {
       "name": "NIFTY Services Sector",
       "quadrant": "Turning Down",
-      "rs_ratio": 100.11,
-      "rs_momentum": 99.97,
-      "rotation_score": 0.082,
-      "strength_pct": -2.21,
-      "momentum": -0.03,
-      "rank": 28,
+      "rs_ratio": 100.01,
+      "rs_momentum": 99.89,
+      "rotation_score": -0.095,
+      "strength_pct": -2.83,
+      "momentum": -0.08,
+      "rank": 27,
       "rank_4wk_change": 10
     },
     {
-      "name": "NIFTY PSU Bank",
+      "name": "NIFTY India Railways PSU",
       "quadrant": "Turning Up",
-      "rs_ratio": 99.98,
-      "rs_momentum": 100.08,
-      "rotation_score": 0.061,
-      "strength_pct": -3.09,
-      "momentum": -0.47,
-      "rank": 29,
-      "rank_4wk_change": -28
-    },
-    {
-      "name": "NIFTY India Digital",
-      "quadrant": "Turning Down",
-      "rs_ratio": 100.56,
-      "rs_momentum": 99.41,
-      "rotation_score": -0.031,
-      "strength_pct": 0.91,
-      "momentum": -0.12,
-      "rank": 30,
-      "rank_4wk_change": -16
-    },
-    {
-      "name": "NIFTY Midsmall Healthcare",
-      "quadrant": "Turning Down",
-      "rs_ratio": 100.4,
-      "rs_momentum": 99.56,
-      "rotation_score": -0.041,
-      "strength_pct": -1.35,
-      "momentum": -0.39,
-      "rank": 31,
-      "rank_4wk_change": -22
+      "rs_ratio": 99.45,
+      "rs_momentum": 100.41,
+      "rotation_score": -0.141,
+      "strength_pct": -4.99,
+      "momentum": -0.35,
+      "rank": 28,
+      "rank_4wk_change": 5
     },
     {
       "name": "NIFTY Hospitals",
@@ -352,8 +319,8 @@
       "rotation_score": -0.235,
       "strength_pct": -5.0,
       "momentum": -0.39,
-      "rank": 32,
-      "rank_4wk_change": -16
+      "rank": 29,
+      "rank_4wk_change": -7
     },
     {
       "name": "NIFTY NBFC",
@@ -363,19 +330,8 @@
       "rotation_score": -0.278,
       "strength_pct": -1.94,
       "momentum": 0.21,
-      "rank": 33,
-      "rank_4wk_change": 1
-    },
-    {
-      "name": "NIFTY IT",
-      "quadrant": "Turning Down",
-      "rs_ratio": 100.63,
-      "rs_momentum": 98.93,
-      "rotation_score": -0.44,
-      "strength_pct": -2.7,
-      "momentum": -0.36,
-      "rank": 34,
-      "rank_4wk_change": -26
+      "rank": 30,
+      "rank_4wk_change": -17
     },
     {
       "name": "NIFTY Retail",
@@ -385,8 +341,19 @@
       "rotation_score": -0.448,
       "strength_pct": 0.87,
       "momentum": 0.19,
-      "rank": 35,
-      "rank_4wk_change": 0
+      "rank": 31,
+      "rank_4wk_change": -2
+    },
+    {
+      "name": "NIFTY India Manufacturing",
+      "quadrant": "Lagging",
+      "rs_ratio": 99.55,
+      "rs_momentum": 99.97,
+      "rotation_score": -0.476,
+      "strength_pct": -2.81,
+      "momentum": 0.47,
+      "rank": 32,
+      "rank_4wk_change": -18
     },
     {
       "name": "NIFTY Consumer Services",
@@ -396,8 +363,8 @@
       "rotation_score": -0.527,
       "strength_pct": 0.15,
       "momentum": -0.01,
-      "rank": 36,
-      "rank_4wk_change": -15
+      "rank": 33,
+      "rank_4wk_change": -7
     },
     {
       "name": "NIFTY Small Finance Banks & Microfinance Institutions",
@@ -407,8 +374,19 @@
       "rotation_score": -0.59,
       "strength_pct": -3.6,
       "momentum": 0.2,
-      "rank": 37,
-      "rank_4wk_change": 11
+      "rank": 34,
+      "rank_4wk_change": 14
+    },
+    {
+      "name": "NIFTY India Tourism",
+      "quadrant": "Turning Up",
+      "rs_ratio": 99.16,
+      "rs_momentum": 100.21,
+      "rotation_score": -0.625,
+      "strength_pct": -4.37,
+      "momentum": 0.01,
+      "rank": 35,
+      "rank_4wk_change": -18
     },
     {
       "name": "NIFTY Capital Goods",
@@ -418,118 +396,140 @@
       "rotation_score": -0.632,
       "strength_pct": -0.1,
       "momentum": -0.29,
-      "rank": 38,
+      "rank": 36,
       "rank_4wk_change": -32
     },
     {
-      "name": "NIFTY India Tourism",
+      "name": "NIFTY PSU Bank",
+      "quadrant": "Lagging",
+      "rs_ratio": 99.4,
+      "rs_momentum": 99.6,
+      "rotation_score": -0.996,
+      "strength_pct": -2.49,
+      "momentum": -0.48,
+      "rank": 37,
+      "rank_4wk_change": -22
+    },
+    {
+      "name": "NIFTY India Digital",
+      "quadrant": "Lagging",
+      "rs_ratio": 99.93,
+      "rs_momentum": 99.06,
+      "rotation_score": -1.013,
+      "strength_pct": -0.58,
+      "momentum": -0.35,
+      "rank": 38,
+      "rank_4wk_change": -30
+    },
+    {
+      "name": "NIFTY MNC",
       "quadrant": "Turning Up",
-      "rs_ratio": 99.15,
+      "rs_ratio": 98.73,
       "rs_momentum": 100.2,
-      "rotation_score": -0.657,
-      "strength_pct": -4.25,
-      "momentum": -0.26,
+      "rotation_score": -1.061,
+      "strength_pct": -5.42,
+      "momentum": 0.55,
       "rank": 39,
-      "rank_4wk_change": -28
+      "rank_4wk_change": -30
     },
     {
-      "name": "NIFTY Pharma",
-      "quadrant": "Turning Down",
-      "rs_ratio": 100.24,
-      "rs_momentum": 98.8,
-      "rotation_score": -0.961,
-      "strength_pct": -0.24,
-      "momentum": -0.51,
+      "name": "NIFTY Realty",
+      "quadrant": "Lagging",
+      "rs_ratio": 99.61,
+      "rs_momentum": 99.3,
+      "rotation_score": -1.094,
+      "strength_pct": -0.61,
+      "momentum": -1.23,
       "rank": 40,
-      "rank_4wk_change": -17
+      "rank_4wk_change": -19
     },
     {
-      "name": "NIFTY India Manufacturing",
+      "name": "NIFTY Cement",
       "quadrant": "Lagging",
-      "rs_ratio": 99.28,
-      "rs_momentum": 99.5,
-      "rotation_score": -1.219,
-      "strength_pct": -2.65,
-      "momentum": -0.08,
+      "rs_ratio": 98.9,
+      "rs_momentum": 99.8,
+      "rotation_score": -1.292,
+      "strength_pct": -6.66,
+      "momentum": -0.93,
       "rank": 41,
-      "rank_4wk_change": -31
-    },
-    {
-      "name": "NIFTY FMCG",
-      "quadrant": "Turning Up",
-      "rs_ratio": 98.49,
-      "rs_momentum": 100.25,
-      "rotation_score": -1.261,
-      "strength_pct": -7.17,
-      "momentum": -0.0,
-      "rank": 42,
-      "rank_4wk_change": -10
-    },
-    {
-      "name": "NIFTY Healthcare Index",
-      "quadrant": "Lagging",
-      "rs_ratio": 99.76,
-      "rs_momentum": 98.59,
-      "rotation_score": -1.648,
-      "strength_pct": -1.8,
-      "momentum": -0.59,
-      "rank": 43,
-      "rank_4wk_change": -17
+      "rank_4wk_change": -11
     },
     {
       "name": "NIFTY Consumer Durables",
       "quadrant": "Lagging",
-      "rs_ratio": 98.81,
-      "rs_momentum": 99.41,
-      "rotation_score": -1.777,
-      "strength_pct": -1.51,
-      "momentum": -0.05,
-      "rank": 44,
-      "rank_4wk_change": -13
-    },
-    {
-      "name": "NIFTY MNC",
-      "quadrant": "Lagging",
-      "rs_ratio": 98.36,
-      "rs_momentum": 99.66,
-      "rotation_score": -1.982,
-      "strength_pct": -4.74,
-      "momentum": 0.07,
-      "rank": 45,
-      "rank_4wk_change": -32
+      "rs_ratio": 98.89,
+      "rs_momentum": 99.76,
+      "rotation_score": -1.347,
+      "strength_pct": -2.29,
+      "momentum": 0.36,
+      "rank": 42,
+      "rank_4wk_change": -14
     },
     {
       "name": "NIFTY Transportation & Logistics",
+      "quadrant": "Turning Up",
+      "rs_ratio": 98.51,
+      "rs_momentum": 100.06,
+      "rotation_score": -1.433,
+      "strength_pct": -4.39,
+      "momentum": 0.61,
+      "rank": 43,
+      "rank_4wk_change": -31
+    },
+    {
+      "name": "NIFTY FMCG",
       "quadrant": "Lagging",
-      "rs_ratio": 98.09,
-      "rs_momentum": 99.45,
-      "rotation_score": -2.462,
-      "strength_pct": -4.47,
-      "momentum": 0.13,
-      "rank": 46,
-      "rank_4wk_change": -41
+      "rs_ratio": 98.49,
+      "rs_momentum": 99.94,
+      "rotation_score": -1.576,
+      "strength_pct": -7.64,
+      "momentum": -0.31,
+      "rank": 44,
+      "rank_4wk_change": -3
     },
     {
       "name": "NIFTY EV & New Age Automotive",
       "quadrant": "Lagging",
-      "rs_ratio": 97.77,
-      "rs_momentum": 99.12,
-      "rotation_score": -3.11,
-      "strength_pct": -5.23,
-      "momentum": -0.25,
-      "rank": 47,
-      "rank_4wk_change": -45
+      "rs_ratio": 98.18,
+      "rs_momentum": 99.83,
+      "rotation_score": -1.99,
+      "strength_pct": -5.46,
+      "momentum": 0.71,
+      "rank": 45,
+      "rank_4wk_change": -44
     },
     {
       "name": "NIFTY Auto",
-      "quadrant": "Lagging",
-      "rs_ratio": 97.08,
-      "rs_momentum": 99.04,
-      "rotation_score": -3.88,
-      "strength_pct": -6.53,
-      "momentum": 0.2,
-      "rank": 48,
+      "quadrant": "Turning Up",
+      "rs_ratio": 97.73,
+      "rs_momentum": 100.04,
+      "rotation_score": -2.224,
+      "strength_pct": -6.49,
+      "momentum": 1.0,
+      "rank": 46,
       "rank_4wk_change": -44
+    },
+    {
+      "name": "NIFTY IT",
+      "quadrant": "Lagging",
+      "rs_ratio": 98.71,
+      "rs_momentum": 97.6,
+      "rotation_score": -3.687,
+      "strength_pct": -5.17,
+      "momentum": -1.32,
+      "rank": 47,
+      "rank_4wk_change": -41
+    },
+    {
+      "name": "NIFTY Media",
+      "quadrant": "Lagging",
+      "rs_ratio": 97.21,
+      "rs_momentum": 98.85,
+      "rotation_score": -3.942,
+      "strength_pct": -2.49,
+      "momentum": -2.05,
+      "rank": 48,
+      "rank_4wk_change": -5
     }
   ]
 }
